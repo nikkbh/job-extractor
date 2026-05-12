@@ -1,0 +1,1019 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Job Extractor</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=DM+Mono:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,300&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      :root {
+        --bg: #0e0e0f;
+        --surface: #161618;
+        --surface2: #1e1e21;
+        --surface3: #26262a;
+        --border: #2e2e33;
+        --border2: #3a3a40;
+        --text: #e8e8ea;
+        --text2: #9898a6;
+        --text3: #606068;
+        --accent: #7c6af7;
+        --accent2: #9d8fff;
+        --accent-glow: rgba(124, 106, 247, 0.15);
+        --green: #3dd68c;
+        --green-bg: rgba(61, 214, 140, 0.08);
+        --amber: #f5a623;
+        --amber-bg: rgba(245, 166, 35, 0.08);
+        --red: #f56565;
+        --red-bg: rgba(245, 101, 101, 0.08);
+        --blue: #60a5fa;
+        --blue-bg: rgba(96, 165, 250, 0.08);
+        --radius: 10px;
+        --radius-sm: 6px;
+        --mono: "DM Mono", monospace;
+        --sans: "DM Sans", sans-serif;
+      }
+
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      body {
+        font-family: var(--sans);
+        background: var(--bg);
+        color: var(--text);
+        min-height: 100vh;
+        line-height: 1.6;
+        font-size: 14px;
+      }
+
+      /* Subtle grid bg */
+      body::before {
+        content: "";
+        position: fixed;
+        inset: 0;
+        background-image:
+          linear-gradient(var(--border) 1px, transparent 1px),
+          linear-gradient(90deg, var(--border) 1px, transparent 1px);
+        background-size: 40px 40px;
+        opacity: 0.25;
+        pointer-events: none;
+        z-index: 0;
+      }
+
+      .layout {
+        position: relative;
+        z-index: 1;
+        max-width: 1100px;
+        margin: 0 auto;
+        padding: 2rem 1.5rem 4rem;
+      }
+
+      /* ── Header ── */
+      header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 2.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .logo {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .logo-icon {
+        width: 34px;
+        height: 34px;
+        background: var(--accent);
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 16px;
+        box-shadow: 0 0 20px var(--accent-glow);
+      }
+
+      .logo-text {
+        font-size: 15px;
+        font-weight: 600;
+        letter-spacing: -0.01em;
+        color: var(--text);
+      }
+
+      .logo-sub {
+        font-size: 11px;
+        color: var(--text3);
+        font-family: var(--mono);
+        margin-top: 1px;
+      }
+
+      .header-badge {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--text3);
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        padding: 4px 10px;
+        border-radius: 20px;
+      }
+
+      /* ── Main grid ── */
+      .main-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1.25rem;
+        align-items: start;
+      }
+
+      @media (max-width: 720px) {
+        .main-grid {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      /* ── Cards ── */
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        overflow: hidden;
+      }
+
+      .card-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0.85rem 1.1rem;
+        border-bottom: 1px solid var(--border);
+        background: var(--surface2);
+      }
+
+      .card-title {
+        font-size: 12px;
+        font-weight: 500;
+        color: var(--text2);
+        font-family: var(--mono);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+      }
+
+      .card-body {
+        padding: 1.1rem;
+      }
+
+      /* ── Textarea ── */
+      textarea {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 12.5px;
+        line-height: 1.7;
+        padding: 0.85rem 1rem;
+        resize: vertical;
+        min-height: 280px;
+        transition: border-color 0.15s;
+        outline: none;
+      }
+
+      textarea:focus {
+        border-color: var(--accent);
+      }
+      textarea::placeholder {
+        color: var(--text3);
+      }
+
+      /* ── Buttons ── */
+      .btn-row {
+        display: flex;
+        gap: 8px;
+        margin-top: 0.85rem;
+      }
+
+      button {
+        font-family: var(--sans);
+        font-size: 13px;
+        font-weight: 500;
+        border: none;
+        border-radius: var(--radius-sm);
+        cursor: pointer;
+        transition: all 0.15s;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        outline: none;
+      }
+
+      .btn-primary {
+        background: var(--accent);
+        color: white;
+        padding: 9px 18px;
+        flex: 1;
+        justify-content: center;
+        box-shadow: 0 0 0 0 var(--accent-glow);
+      }
+
+      .btn-primary:hover:not(:disabled) {
+        background: var(--accent2);
+        box-shadow: 0 0 20px var(--accent-glow);
+      }
+
+      .btn-primary:disabled {
+        opacity: 0.45;
+        cursor: not-allowed;
+      }
+
+      .btn-secondary {
+        background: var(--surface3);
+        color: var(--text2);
+        padding: 9px 14px;
+        border: 1px solid var(--border);
+      }
+
+      .btn-secondary:hover {
+        background: var(--border);
+        color: var(--text);
+      }
+
+      /* ── Mode toggle ── */
+      .mode-toggle {
+        display: flex;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 3px;
+        gap: 2px;
+        margin-bottom: 0.85rem;
+      }
+
+      .mode-btn {
+        flex: 1;
+        padding: 6px 10px;
+        font-size: 12px;
+        background: transparent;
+        color: var(--text3);
+        border-radius: 4px;
+        justify-content: center;
+        transition: all 0.15s;
+      }
+
+      .mode-btn.active {
+        background: var(--surface3);
+        color: var(--text);
+      }
+
+      /* ── Model selector ── */
+      .model-select-row {
+        margin-bottom: 0.85rem;
+      }
+
+      .field-label {
+        font-size: 11px;
+        font-family: var(--mono);
+        color: var(--text3);
+        margin-bottom: 5px;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+      }
+
+      select {
+        width: 100%;
+        background: var(--bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        color: var(--text);
+        font-family: var(--mono);
+        font-size: 12px;
+        padding: 7px 10px;
+        outline: none;
+        cursor: pointer;
+        transition: border-color 0.15s;
+        appearance: none;
+        background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23606068' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+        background-repeat: no-repeat;
+        background-position: right 10px center;
+        padding-right: 28px;
+      }
+
+      select:focus {
+        border-color: var(--accent);
+      }
+
+      /* ── Results panel ── */
+      .results-panel {
+        grid-column: 1 / -1;
+      }
+
+      /* ── Status bar ── */
+      .status-bar {
+        display: none;
+        align-items: center;
+        gap: 8px;
+        padding: 0.7rem 1.1rem;
+        background: var(--surface2);
+        border-bottom: 1px solid var(--border);
+        font-size: 12px;
+        color: var(--text2);
+        font-family: var(--mono);
+      }
+
+      .status-bar.visible {
+        display: flex;
+      }
+
+      .spinner {
+        width: 13px;
+        height: 13px;
+        border: 2px solid var(--border2);
+        border-top-color: var(--accent);
+        border-radius: 50%;
+        animation: spin 0.7s linear infinite;
+        flex-shrink: 0;
+      }
+
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+
+      /* ── Empty state ── */
+      .empty-state {
+        padding: 3rem 1rem;
+        text-align: center;
+        color: var(--text3);
+        font-size: 13px;
+        font-family: var(--mono);
+      }
+
+      .empty-icon {
+        font-size: 28px;
+        margin-bottom: 0.75rem;
+        opacity: 0.4;
+      }
+
+      /* ── Single result ── */
+      .result-block {
+        padding: 1.1rem;
+      }
+
+      .field-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+      }
+
+      .field-item {
+        background: var(--surface2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        padding: 0.65rem 0.85rem;
+      }
+
+      .field-key {
+        font-size: 10px;
+        font-family: var(--mono);
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-bottom: 3px;
+      }
+
+      .field-val {
+        font-size: 13px;
+        color: var(--text);
+        font-weight: 400;
+        word-break: break-word;
+      }
+
+      .field-val.null {
+        color: var(--text3);
+        font-style: italic;
+        font-size: 12px;
+      }
+
+      .badge {
+        display: inline-flex;
+        align-items: center;
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 20px;
+        font-family: var(--mono);
+      }
+
+      .badge-green {
+        background: var(--green-bg);
+        color: var(--green);
+      }
+      .badge-amber {
+        background: var(--amber-bg);
+        color: var(--amber);
+      }
+      .badge-blue {
+        background: var(--blue-bg);
+        color: var(--blue);
+      }
+      .badge-red {
+        background: var(--red-bg);
+        color: var(--red);
+      }
+
+      .tag-list {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 5px;
+      }
+
+      .tag {
+        font-size: 11px;
+        padding: 2px 8px;
+        border-radius: 4px;
+        background: var(--surface3);
+        color: var(--text2);
+        border: 1px solid var(--border);
+        font-family: var(--mono);
+      }
+
+      /* ── Comparison view ── */
+      .compare-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 1px;
+        background: var(--border);
+      }
+
+      .compare-col {
+        background: var(--surface);
+        padding: 1rem;
+      }
+
+      .compare-col-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 0.85rem;
+        padding-bottom: 0.75rem;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .model-name {
+        font-family: var(--mono);
+        font-size: 11px;
+        color: var(--accent2);
+        font-weight: 500;
+      }
+
+      .stats-row {
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+      }
+
+      /* ── Summary bar ── */
+      .summary-bar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 1px;
+        background: var(--border);
+        border-top: 1px solid var(--border);
+      }
+
+      .summary-cell {
+        background: var(--surface2);
+        padding: 0.85rem 1rem;
+        text-align: center;
+      }
+
+      .summary-val {
+        font-family: var(--mono);
+        font-size: 16px;
+        font-weight: 500;
+        color: var(--text);
+      }
+
+      .summary-label {
+        font-size: 10px;
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.06em;
+        margin-top: 2px;
+        font-family: var(--mono);
+      }
+
+      .summary-sub {
+        font-size: 11px;
+        color: var(--accent2);
+        font-family: var(--mono);
+        margin-top: 1px;
+      }
+
+      /* ── Error ── */
+      .error-box {
+        margin: 1rem;
+        padding: 0.85rem 1rem;
+        background: var(--red-bg);
+        border: 1px solid rgba(245, 101, 101, 0.2);
+        border-radius: var(--radius-sm);
+        font-family: var(--mono);
+        font-size: 12px;
+        color: var(--red);
+      }
+
+      /* ── Divider ── */
+      .section-divider {
+        height: 1px;
+        background: var(--border);
+        margin: 0.85rem 0;
+      }
+
+      .section-title {
+        font-size: 10px;
+        font-family: var(--mono);
+        color: var(--text3);
+        text-transform: uppercase;
+        letter-spacing: 0.07em;
+        margin-bottom: 6px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="layout">
+      <header>
+        <div class="logo">
+          <div class="logo-icon">⚙</div>
+          <div>
+            <div class="logo-text">Job Details Extractor</div>
+            <div class="logo-sub">
+              Extract job details from a given job description in a strucutred
+              Pydantic model class using LLM models like Gemini-2.5-Flash and
+              Gemini-2.5-Flash-Lite.
+            </div>
+            <div class="logo-sub">
+              Compare both the models over latency and cost with statistics like
+              number of input and output tokens, cost per LLM call, fastest
+              model and the cheapest model.
+            </div>
+          </div>
+        </div>
+      </header>
+
+      <div class="main-grid">
+        <!-- Left: Input -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Input</span>
+            <span
+              style="
+                font-size: 11px;
+                color: var(--text3);
+                font-family: var(--mono);
+              "
+              >raw job listing text</span
+            >
+          </div>
+          <div class="card-body">
+            <!-- Mode toggle -->
+            <div class="mode-toggle">
+              <button
+                class="mode-btn active"
+                id="btn-compare"
+                onclick="setMode('compare')"
+              >
+                ⚡ Compare All Models
+              </button>
+              <button
+                class="mode-btn"
+                id="btn-single"
+                onclick="setMode('single')"
+              >
+                ◎ Single Model
+              </button>
+            </div>
+
+            <!-- Single model selector (hidden by default) -->
+            <div
+              class="model-select-row"
+              id="model-select-row"
+              style="display: none"
+            >
+              <div class="field-label">Model</div>
+              <select id="model-select">
+                <option value="gemini-2.5-flash">gemini-2.5-flash</option>
+                <option value="gemini-2.5-flash-lite">
+                  gemini-2.5-flash-lite
+                </option>
+              </select>
+            </div>
+
+            <textarea
+              id="job-input"
+              placeholder="Paste a job description here...
+
+Example:
+Senior Python Engineer at Stripe
+Remote · $150k–$200k/yr
+
+We're looking for 5+ years of Python experience.
+Required: FastAPI, PostgreSQL, Docker, Kubernetes
+Nice to have: Rust, Go, FinTech background
+
+Benefits: Health insurance, 401k, unlimited PTO"
+            ></textarea>
+
+            <div class="btn-row">
+              <button
+                class="btn-primary"
+                id="extract-btn"
+                onclick="handleExtract()"
+              >
+                <span id="btn-icon">▶</span>
+                <span id="btn-text">Extract</span>
+              </button>
+              <button class="btn-secondary" onclick="clearAll()" title="Clear">
+                ✕
+              </button>
+              <button
+                class="btn-secondary"
+                onclick="loadSample()"
+                title="Load sample"
+              >
+                ⊕ Sample
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Quick stats (shown after result) -->
+        <div class="card" id="stats-card" style="display: none">
+          <div class="card-header">
+            <span class="card-title">Run Stats</span>
+          </div>
+          <div class="card-body" id="stats-body"></div>
+        </div>
+
+        <!-- Full width: Results -->
+        <div class="card results-panel" id="results-card">
+          <div class="card-header">
+            <span class="card-title">Results</span>
+            <span
+              id="results-meta"
+              style="
+                font-size: 11px;
+                color: var(--text3);
+                font-family: var(--mono);
+              "
+            ></span>
+          </div>
+          <div class="status-bar" id="status-bar">
+            <div class="spinner"></div>
+            <span id="status-text">Calling API...</span>
+          </div>
+          <div id="results-body">
+            <div class="empty-state">
+              <div class="empty-icon">◎</div>
+              <div>Paste a job listing and hit Extract</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      const API_BASE = "http://localhost:8000";
+      let currentMode = "compare";
+
+      function setMode(mode) {
+        currentMode = mode;
+        document
+          .getElementById("btn-compare")
+          .classList.toggle("active", mode === "compare");
+        document
+          .getElementById("btn-single")
+          .classList.toggle("active", mode === "single");
+        document.getElementById("model-select-row").style.display =
+          mode === "single" ? "block" : "none";
+      }
+
+      function setLoading(on) {
+        const btn = document.getElementById("extract-btn");
+        const icon = document.getElementById("btn-icon");
+        const text = document.getElementById("btn-text");
+        const bar = document.getElementById("status-bar");
+        btn.disabled = on;
+        icon.textContent = on ? "…" : "▶";
+        text.textContent = on ? "Extracting..." : "Extract";
+        bar.classList.toggle("visible", on);
+        if (on)
+          document.getElementById("status-text").textContent =
+            currentMode === "compare"
+              ? "Running 2 models in parallel..."
+              : "Calling model...";
+      }
+
+      async function handleExtract() {
+        const text = document.getElementById("job-input").value.trim();
+        if (!text) {
+          alert("Paste a job description first.");
+          return;
+        }
+
+        setLoading(true);
+        document.getElementById("results-body").innerHTML = "";
+        document.getElementById("stats-card").style.display = "none";
+
+        try {
+          if (currentMode === "compare") {
+            await runCompare(text);
+          } else {
+            await runSingle(text);
+          }
+        } catch (err) {
+          showError(err.message);
+        } finally {
+          setLoading(false);
+        }
+      }
+
+      async function runCompare(text) {
+        const res = await fetch(`${API_BASE}/compare`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+        const data = await res.json();
+        renderCompare(data);
+      }
+
+      async function runSingle(text) {
+        const model = document.getElementById("model-select").value;
+        const res = await fetch(`${API_BASE}/extract`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text, model }),
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}: ${await res.text()}`);
+        const data = await res.json();
+        renderSingle(data);
+      }
+
+      // ── Render single result ────────────────────────────────────────────────────
+      function renderSingle(data) {
+        document.getElementById("results-meta").textContent = data.model;
+        document.getElementById("results-body").innerHTML =
+          buildResultHTML(data);
+        renderStatsCard([data]);
+      }
+
+      // ── Render comparison ───────────────────────────────────────────────────────
+      function renderCompare(data) {
+        const results = data.results || [];
+        const summary = data.summary || {};
+        const valid = results.filter((r) => r.result);
+
+        document.getElementById("results-meta").textContent =
+          `${valid.length}/${results.length} models succeeded`;
+
+        let html = `<div class="compare-grid">`;
+        results.forEach((r) => {
+          html += `<div class="compare-col">`;
+          html += `<div class="compare-col-header">
+      <span class="model-name">${r.model}</span>
+      <div class="stats-row">
+        ${r.latency_ms != null ? `<span class="badge badge-blue">${r.latency_ms}ms</span>` : ""}
+        ${r.cost_usd != null ? `<span class="badge badge-green">$${r.cost_usd.toFixed(5)}</span>` : ""}
+      </div>
+    </div>`;
+          if (r.error) {
+            html += `<div class="error-box">Error: ${escHtml(r.error)}</div>`;
+          } else {
+            html += buildFieldsHTML(r.result);
+          }
+          html += `</div>`;
+        });
+        html += `</div>`;
+
+        // Summary bar
+        if (summary.total_cost_usd != null) {
+          html += `<div class="summary-bar">
+      <div class="summary-cell">
+        <div class="summary-val">$${summary.total_cost_usd.toFixed(5)}</div>
+        <div class="summary-label">Total Cost</div>
+      </div>
+      <div class="summary-cell">
+        <div class="summary-val">${summary.cheapest_model?.split("/").pop() || "—"}</div>
+        <div class="summary-label">Cheapest</div>
+      </div>
+      <div class="summary-cell">
+        <div class="summary-val">${summary.fastest_model?.split("/").pop() || "—"}</div>
+        <div class="summary-label">Fastest</div>
+      </div>
+    </div>`;
+        }
+
+        document.getElementById("results-body").innerHTML = html;
+        renderStatsCard(valid);
+      }
+
+      // ── Build result HTML ───────────────────────────────────────────────────────
+      function buildResultHTML(data) {
+        if (data.error)
+          return `<div class="error-box">Error: ${escHtml(data.error)}</div>`;
+        let html = `<div class="result-block">`;
+        html += buildFieldsHTML(data.result);
+        html += `</div>`;
+        return html;
+      }
+
+      function buildFieldsHTML(r) {
+        if (!r) return `<div class="error-box">No result</div>`;
+        let html = "";
+
+        // Summary highlight
+        if (r.summary) {
+          html += `<div style="background:var(--surface3);border:1px solid var(--border);border-radius:var(--radius-sm);padding:0.65rem 0.85rem;margin-bottom:0.85rem;font-size:13px;color:var(--text2);font-style:italic">"${escHtml(r.summary)}"</div>`;
+        }
+
+        // Core fields grid
+        const coreFields = [
+          ["Job Title", r.job_title],
+          ["Company", r.company_name],
+          ["Location", r.location],
+          ["Remote", r.is_remote != null ? (r.is_remote ? "Yes" : "No") : null],
+          ["Experience Level", r.experience_level],
+          [
+            "Years Required",
+            r.years_experience_required != null
+              ? `${r.years_experience_required} yrs`
+              : null,
+          ],
+        ];
+
+        html += `<div class="field-grid">`;
+        coreFields.forEach(([k, v]) => {
+          html += `<div class="field-item">
+      <div class="field-key">${k}</div>
+      <div class="field-val ${v == null ? "null" : ""}">${v ?? "not mentioned"}</div>
+    </div>`;
+        });
+
+        // Salary
+        if (r.salary && (r.salary.min_usd || r.salary.max_usd)) {
+          const sal = r.salary;
+          const range = [sal.min_usd, sal.max_usd]
+            .filter(Boolean)
+            .map((n) => `$${n.toLocaleString()}`)
+            .join(" – ");
+          html += `<div class="field-item">
+      <div class="field-key">Salary</div>
+      <div class="field-val">${range} <span style="color:var(--text3);font-size:11px">${sal.currency} / ${sal.period}</span></div>
+    </div>`;
+        } else {
+          html += `<div class="field-item">
+      <div class="field-key">Salary</div>
+      <div class="field-val null">not mentioned</div>
+    </div>`;
+        }
+        html += `</div>`;
+
+        // Skills sections
+        if (r.required_skills?.length) {
+          html += `<div class="section-title">Required Skills</div>
+    <div class="tag-list" style="margin-bottom:0.85rem">
+      ${r.required_skills.map((s) => `<span class="tag" style="border-color:rgba(124,106,247,0.3);color:var(--accent2)">${escHtml(s)}</span>`).join("")}
+    </div>`;
+        }
+
+        if (r.tech_stack?.length) {
+          html += `<div class="section-title">Tech Stack</div>
+    <div class="tag-list" style="margin-bottom:0.85rem">
+      ${r.tech_stack.map((s) => `<span class="tag">${escHtml(s)}</span>`).join("")}
+    </div>`;
+        }
+
+        if (r.nice_to_have_skills?.length) {
+          html += `<div class="section-title">Nice to Have</div>
+    <div class="tag-list" style="margin-bottom:0.85rem">
+      ${r.nice_to_have_skills.map((s) => `<span class="tag" style="color:var(--text3)">${escHtml(s)}</span>`).join("")}
+    </div>`;
+        }
+
+        if (r.benefits?.length) {
+          html += `<div class="section-title">Benefits</div>
+    <div class="tag-list">
+      ${r.benefits.map((s) => `<span class="tag" style="color:var(--green);border-color:rgba(61,214,140,0.2)">${escHtml(s)}</span>`).join("")}
+    </div>`;
+        }
+
+        return html;
+      }
+
+      // ── Stats card ──────────────────────────────────────────────────────────────
+      function renderStatsCard(results) {
+        if (!results.length) return;
+        const card = document.getElementById("stats-card");
+        const body = document.getElementById("stats-body");
+        card.style.display = "block";
+
+        let html = "";
+        results.forEach((r) => {
+          html += `<div style="margin-bottom:0.85rem;padding-bottom:0.85rem;border-bottom:1px solid var(--border)">
+      <div class="field-label" style="margin-bottom:6px">${r.model}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div class="field-item">
+          <div class="field-key">Latency</div>
+          <div class="field-val">${r.latency_ms ?? "—"}ms</div>
+        </div>
+        <div class="field-item">
+          <div class="field-key">Cost</div>
+          <div class="field-val">${r.cost_usd != null ? "$" + r.cost_usd.toFixed(5) : "—"}</div>
+        </div>
+        <div class="field-item">
+          <div class="field-key">Input Tokens</div>
+          <div class="field-val">${r.input_tokens ?? "—"}</div>
+        </div>
+        <div class="field-item">
+          <div class="field-key">Output Tokens</div>
+          <div class="field-val">${r.output_tokens ?? "—"}</div>
+        </div>
+      </div>
+    </div>`;
+        });
+
+        // Remove last border
+        body.innerHTML = html;
+      }
+
+      // ── Helpers ─────────────────────────────────────────────────────────────────
+      function showError(msg) {
+        document.getElementById("results-body").innerHTML =
+          `<div class="error-box" style="margin:1rem">⚠ ${escHtml(msg)}</div>`;
+      }
+
+      function escHtml(str) {
+        if (str == null) return "";
+        return String(str)
+          .replace(/&/g, "&amp;")
+          .replace(/</g, "&lt;")
+          .replace(/>/g, "&gt;")
+          .replace(/"/g, "&quot;");
+      }
+
+      function clearAll() {
+        document.getElementById("job-input").value = "";
+        document.getElementById("results-body").innerHTML =
+          `<div class="empty-state"><div class="empty-icon">◎</div><div>Paste a job listing and hit Extract</div></div>`;
+        document.getElementById("results-meta").textContent = "";
+        document.getElementById("stats-card").style.display = "none";
+      }
+
+      function loadSample() {
+        document.getElementById("job-input").value =
+          `Senior Backend Engineer — Stripe (Remote)
+
+We're building the financial infrastructure of the internet, and we need engineers who can work at scale.
+
+Compensation: $160,000 – $210,000 annually + equity + benefits
+Location: Remote (US or Canada)
+
+What you'll do:
+- Design and own large-scale distributed systems processing millions of transactions
+- Lead cross-functional projects from architecture through deployment
+- Mentor junior engineers and contribute to engineering culture
+
+Requirements:
+- 5+ years of backend engineering experience
+- Strong proficiency in Python or Go
+- Experience with PostgreSQL, distributed systems, and microservices
+- Familiarity with Kubernetes and cloud infrastructure (AWS/GCP)
+- Strong system design skills
+
+Nice to have:
+- Experience in FinTech or payments infrastructure
+- Knowledge of Rust or low-latency systems
+- Prior experience at high-growth startups
+
+Benefits:
+- Comprehensive health, dental, and vision
+- 401(k) with company match
+- Unlimited PTO
+- $2,000/year learning stipend
+- Home office setup allowance`;
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,176 @@
+Job-1
+About the job: Senior System Software Engineer - Metropolis. Pune City, Maharashtra.NVIDIA has been redefining computer graphics, PC gaming, and accelerated computing for more than 25 years. It’s a unique legacy of innovation that’s motivated by great technology and amazing people. Today, we’re tapping into the unlimited potential of AI to define the next era of computing. An era in which our GPU acts as the brains of computers, robots, and self-driving cars that can understand the world. NVIDIA is at the forefront of generative AI models, from language to images. Doing what’s never been done before takes vision, innovation, and the world’s best talent. As an NVIDIAN, you’ll be immersed in a diverse, encouraging environment where everyone is inspired to do their best work. We are looking for a passionate, extraordinary engineer for the Metropolis team as Sr System Software Engineer to develop microservices that runs on Nvidia software. Come join the team and see how you can make a lasting impact on the world. What You Will Be Doing: Lead full-stack development end-to-end: design and implement responsive front-end interfaces, robust back-end services, microservices architecture, and cloud-native applications using containers (Docker) and orchestration (Kubernetes).Build high-performance, low-latency systems including real-time features, streaming pipelines, event-driven architectures with message brokers (e.g., Kafka, MQTT, Redis Streams), and scalable RESTful APIs.Collaborate closely with Architects, designers, DevOps, and AI/ML teams to translate requirements into production-ready features, participate in code reviews, and contribute to architectural decisions.Troubleshoot complex issues across the stack, optimize application performance, implement CI/CD pipelines, and deploy updates to cloud environments (AWS, Azure, or GCP).What We Need To See:Bachelor’s or Master’s degree in Computer Science, Software Engineering, or a related field (or equivalent practical experience).3+ years of hands-on full-stack development experience.Solid back-end experience with Node.js (Express/NestJS) or Python (FastAPI, Django/Flask), building REST APIs, GraphQL, authentication (JWT, OAuth), and integrating with databases (PostgreSQL, Elasticsearch).Good understanding of cloud fundamentals, Docker, Kubernetes basics, Git, and modern development workflows (CI/CD, testing: unit/integration/E2E).Strong grasp of algorithms, data structures, time/space complexity, and problem-solving skills (comfortable with LeetCode-style questions).Ways To Stand Out From The Crowd.Familiarity with real-time technologies (WebSockets, Socket.io), message queues, or event-driven systems.Exposure to AI/ML integration: working with LLMs, prompt engineering, Retrieval-Augmented Generation (RAG), vector databases (Pinecone, Milvus), or Agentic AI workflows.Knowledge of DevOps practices (Terraform, Helm, monitoring with Prometheus/Grafana), serverless architectures, or micro-frontends.Contributions to open-source projects, personal side projects with live demos, or experience optimizing applications for high traffic/low latency.NVIDIA is widely considered to be one of the technology world’s most desirable employers. We have some of the most forward-thinking and hardworking people in the world working for us. If you're creative and autonomous, we want to hear from you!
+
+---
+Job-2
+About the job
+Software Engineer III - Fullstack + Kubernetes + Devops
+Pune Division, Maharashtra
+
+Overview
+
+Who We Are:  
+
+Ever wonder who brings the entertainment to your flights? Panasonic Avionics Corporation is #1 in the industry for delivering inflight products such as movies, games, WiFi, and now Bluetooth headphone connectivity!  
+
+How exciting would it be to be a part of the innovation that goes into creating technology that delights millions of people in an industry that’s here to stay! With our company’s history spanning over 40 years, you will have stability, career growth opportunities, and will work with the brightest minds in the industry. And we are committed to a diverse and inclusive culture that will help our organization thrive! We seek diversity in many areas such as background, culture, gender, ways of thinking, skills and more. 
+
+If you want to learn more about us visit us at www.panasonic.aero. And for a full listing of open job opportunities go to www.panasonic.aero/join-us/.
+
+The Position
+
+We are looking for a motivated and collaborative Software Engineer to join the Tools and Automation Team working on the Virtual Rack platform - an internal development tool aligned with hardware systems and customer-facing workflows.
+
+This role is primarily backend-focused and involves building scalable platform services, automation frameworks, and system integrations rather than simple CRUD applications. You will work closely with infrastructure, CI/CD pipelines, and hardware-interfacing tooling in a hands-on engineering environment.
+
+Responsibilities
+
+What You’ll Do
+
+Design, build and maintain backend services using GoLang or Python
+Develop automation workflows and system-level tooling
+Enhance and optimize existing software frameworks for performance and reliability
+Design and implement REST APIs and service integrations
+Develop React/Angular components for internal tools where required
+Write and maintain shell scripts on Linux environments
+Build and maintain CI/CD pipelines and automated testing workflows
+Containerize applications using Docker and deploy on Kubernetes
+Troubleshoot complex production and system-level issues
+Maintain unit tests and improve code coverage
+Document technical designs and requirements in Jira and Confluence
+Collaborate in Agile/Scrum development cycles
+
+Qualifications
+
+What We’re Looking For
+
+6+ years of software development experience
+Strong hands-on experience in GoLang or Python
+Advanced Linux usage and debugging
+Strong shell scripting skills
+Experience designing and maintaining CI/CD pipelines
+Production experience with Docker and containerized deployments
+Working knowledge of JavaScript (tooling/integration use cases)
+Experience with React or Angular
+Experience with SQL and data modeling
+Strong troubleshooting and system-level debugging skills
+Comfortable working close to infrastructure, tooling and hardware-aligned systems
+Ability to independently own backend components end-to-end
+Experience working in Agile/Scrum teams
+Kubernetes and AWS experience
+Infrastructure as Code (Terraform / CloudFormation)
+
+Our Principles:  
+
+Contribution to Society | Fairness & Honesty | Cooperation & Team Spirit | Untiring Effort for Improvement | Courtesy & Humility | Adaptability | Gratitude
+
+What We Offer:  
+
+At Panasonic Avionics Corporation we realize the most important aspects in leading our industry are the bright minds behind everything we do. We are proud to offer our employees a highly competitive, comprehensive and flexible benefits program. 
+
+Job-3
+About the job
+Engineer II , Software Engineer
+Greater Hyderabad Area
+
+What if you could build a career where ambition meets innovation?
+
+At LPL’s Global Capability Center, you'll find a collaborative culture where your voice matters, integrity guides every decision, and technology fuels progress. Your skills, talents, and ideas will redefine what's possible. LPL's success reflects its exceptional employees, who together pursue one noble purpose: empowering financial advisors to deliver personalized advice for all who need it. We’re proud to be expanding and reaching new heights in Hyderabad.
+
+Join us as we create something extraordinary together.
+
+What if you could build a career where ambition meets innovation?
+
+At LPL Financial, we empower professionals to shape their success while helping clients pursue their financial goals with confidence. What if
+
+you could have access to cutting-edge resources, a collaborative environment, and the freedom to make an impact? If you're ready to take
+
+the next step, discover what’s possible with LPL Financial.
+
+Job Overview
+
+We are seeking a Senior Full Stack Engineer to support the operation, maintenance, modernization, and AI‑enabled evolution of legacy and
+
+business‑critical applications across the Business Solutions Technology organization. This role focuses on improving system stability,
+
+reducing technical debt, modernizing applications, and driving efficiency through intelligent automation and AI‑assisted engineering methods.
+
+You will collaborate with architects, SRE, QA, and business partners to troubleshoot issues, deliver enhancements, strengthen platform
+
+reliability, and support cloud‑ready modernization. The role requires hands‑on engineering expertise, the ability to work across a mix of
+
+modern and legacy platforms, and openness to leveraging AI and generative tools to accelerate delivery and improve code quality.
+
+Responsibilities
+
+ Operate, maintain, enhance, and stabilize legacy and modern applications across Business Solutions.
+ Lead foundational upgrades (framework updates, infrastructure refreshes, security patching, performance improvements).
+ Modernize legacy systems using cloud‑ready patterns, microservices, and API‑driven designs.
+ Use AI‑assisted development tools (e.g., GitHub Copilot, code‑generation frameworks, intelligent automation) to accelerate modernization
+
+and improve engineering quality.
+
+ Apply AI‑driven monitoring and observability insights to reduce incidents, identify trends, and improve reliability.
+ Perform advanced troubleshooting, triage, root‑cause analysis, and incident resolution.
+ Participate in architecture/design reviews and ensure modernization & AI‑assisted practices are represented in solution planning.
+ Estimate engineering effort for enhancements, upgrades, and technical debt remediation.
+ Maintain high‑quality technical documentation and run‑books.
+ Collaborate with SRE to improve monitoring, alerting, resiliency, and automation‑driven run‑time operations.
+
+What Are We Looking For?
+
+We are seeking a Software Engineer II who is a solid, hands-on developer capable of delivering quality software in a complex enterprise environment. This is a mid-level role, one level below Senior Software Engineer, focused on building, enhancing, and supporting solutions under the guidance of senior and lead engineers. The ideal candidate demonstrates strong fundamentals, a growth mindset, and the ability to contribute reliably to team delivery.
+
+Role Responsibilities
+
+Design, develop, and maintain software components using established patterns and standards.
+Contribute to the enhancement and modernization of existing .NET applications.
+Build and consume REST APIs and work with relational databases.
+Participate in design discussions and provide input on technical solutions.
+Write clean, testable, and maintainable code with guidance from senior team members.
+Support production systems, including troubleshooting defects and participating in on-call or incident response as needed.
+Collaborate effectively with product owners, QA, and DevOps teams.
+
+Required Qualifications
+
+Technical Skills
+
+3–5 years of professional software development experience.
+Experience with .NET (C#) and front-end frameworks such as Angular or similar SPA frameworks.
+Experience building or consuming RESTful APIs.
+Working knowledge of relational databases (e.g., SQL Server or PostgreSQL) and basic query optimization.
+Exposure to cloud platforms, preferably AWS, including services such as Lambda, S3, or API Gateway.
+Understanding of basic object-oriented design principles and design patterns.
+
+Engineering Practices
+
+Experience writing unit tests and supporting automated testing efforts.
+Familiarity with CI/CD pipelines and version control systems (e.g., Git).
+Understanding of Agile development practices; exposure to Waterfall is a plus.
+
+Reliability & Support
+
+Ability to debug issues across application layers with guidance.
+Exposure to monitoring, logging, and basic operational support concepts.
+Willingness to participate in incident resolution and post-issue learning.
+
+Professional & Collaboration Skills
+
+Strong problem-solving skills and attention to detail.
+Good communication skills and the ability to work effectively within a team.
+Openness to feedback and eagerness to learn from senior engineers.
+Demonstrates ownership of assigned work and follows through on commitments.
+
+Preferred Qualifications
+
+Exposure to non-relational databases such as DynamoDB or DocumentDB.
+Familiarity with API documentation tools such as Swagger / OpenAPI.
+Basic understanding of security best practices in application development.
+Interest in or early exposure to AI-assisted development tools.
+
+What Success Looks Like in This Role
+
+Consistently delivers high-quality features with minimal rework.
+Grows technical depth and independence over time.
+Contributes positively to team velocity and code quality.
+Demonstrates readiness to progress toward a Senior Software Engineer role.
